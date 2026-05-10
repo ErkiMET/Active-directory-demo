@@ -1,4 +1,4 @@
----
+
 - name: Install Active Directory Feature
   ansible.windows.win_feature:
     name: AD-Domain-Services
@@ -17,7 +17,7 @@
   ignore_errors: yes
   changed_when: false
 
-- name: 3. Create New Forest and Domain
+- name: Create New Forest and Domain
   ansible.windows.win_shell: |
     $SecurePassword = ConvertTo-SecureString "{{ vault_dsrm_password }}" -AsPlainText -Force
 

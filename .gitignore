@@ -1,4 +1,4 @@
-secrets.yml
+
 group_vars/windows.yml
 passwords.yml
 user_passwords.yml

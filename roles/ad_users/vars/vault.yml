@@ -1,0 +1,11 @@
+
+
+
+workstations:
+  - { name: "Windows Device", firstname: "Windows", lastname: "Device" }
+  - { name: "Linux Device", firstname: "Linux", lastname: "Device" }
+
+
+employees:
+  - { name: "Mario Admin", firstname: "Mario", lastname: "Admin" }
+  - { name: "Test User", firstname: "Test", lastname: "User" }

@@ -1,0 +1,29 @@
+---
+- name: Create Security Banner GPO
+  microsoft.ad.gpo:
+    name: "Dev_Department_Security_Policy"
+    state: present
+
+- name: Set Legal Notice Caption
+  microsoft.ad.gpo_setting:
+    gpo: "Dev_Department_Security_Policy"
+    path: 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System'
+    name: 'legalnoticecaption'
+    value: 'Ansible-Lab'
+    type: string
+    state: present
+
+- name: Set Legal Notice Text
+  microsoft.ad.gpo_setting:
+    gpo: "Dev_Department_Security_Policy"
+    path: 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System'
+    name: 'legalnoticetext'
+    value: 'Only those with permission can use'
+    type: string
+    state: present
+
+- name: Link GPO to Dev Department OU
+  microsoft.ad.gpo_link:
+    name: "Dev_Department_Security_Policy"
+    target: "OU=Dev Department,{{ domain_path }}"
+    state: present

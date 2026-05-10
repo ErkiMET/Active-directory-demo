@@ -1,0 +1,42 @@
+---
+- name: Install Active Directory Feature
+  ansible.windows.win_feature:
+    name: AD-Domain-Services
+    include_management_tools: yes
+    state: present
+  register: ad_feature
+
+- name: Reboot if required
+  ansible.windows.win_reboot:
+    msg: "Rebooting before Forest creation..."
+  when: ad_feature.reboot_required
+
+- name: Check if server is already a Domain Controller
+  ansible.windows.win_shell: Get-ADDomain
+  register: domain_check
+  ignore_errors: yes
+  changed_when: false
+
+- name: 3. Create New Forest and Domain
+  ansible.windows.win_shell: |
+    $SecurePassword = ConvertTo-SecureString "{{ vault_dsrm_password }}" -AsPlainText -Force
+
+    $ADArguments = @{
+        DomainName                    = "{{ new_domain }}"
+        SafeModeAdministratorPassword = $SecurePassword
+        Force                         = $true
+        NoRebootOnCompletion          = $true
+    }
+
+    Install-ADDSForest @ADArguments
+  register: forest_creation
+  become: yes
+  become_method: runas
+  become_user: SYSTEM
+  when: domain_check.rc != 0
+
+- name: Final reboot after Forest creation
+  ansible.windows.win_reboot:
+    msg: "Domain controller creation finished, performing the required reboot..."
+    reboot_timeout: 900
+  when: forest_creation.changed

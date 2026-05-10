@@ -1,0 +1,18 @@
+
+- name: Build Windows Active Dircetory enviorment
+  hosts:  windows
+
+  vars_files:
+    - passwords.yml
+    - user_passwords.yml
+    - roles/ad_users/vars/vault.yml
+
+  vars:
+    new_domain: "newlab.local"
+    domain_path: "DC=newlab,DC=local"
+
+  roles:
+    - role: ad_domain
+    - role: ad_users
+    - role: ad_gpo
+    - role: zabbix_agent

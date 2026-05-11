@@ -1,6 +1,6 @@
 # Active-directory-demo
 
-#Small lab to practise Ansible and Windows AD
+*Small lab to practise Ansible and Windows AD*
 
 Automated Windows AD & Zabbix Lab
 

@@ -1,5 +1,7 @@
 # Active-directory-demo
 
+#Small lab to practise Ansible and Windows AD
+
 Automated Windows AD & Zabbix Lab
 
   * AD Automation: Fully automated Forest, Domain, and DNS deployment via Ansible.
